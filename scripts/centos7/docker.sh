@@ -10,7 +10,7 @@ usermod -aG docker vagrant
 mkdir -p /etc/docker /etc/systemd/system/docker.service.d
 cat > /etc/docker/daemon.json << EOF
 {
-  "registry-mirrors": ["http://hub-mirror.c.163.com", "https://docker.mirrors.ustc.edu.cn"],
+  "registry-mirrors": ["https://k2v57zxb.mirror.aliyuncs.com", "http://hub-mirror.c.163.com", "https://docker.mirrors.ustc.edu.cn"],
   "exec-opts": ["native.cgroupdriver=systemd"],
   "log-driver": "json-file",
   "log-opts": {
@@ -22,4 +22,5 @@ cat > /etc/docker/daemon.json << EOF
   ]
 }
 EOF
+systemctl daemon-reload
 systemctl enable --now docker
