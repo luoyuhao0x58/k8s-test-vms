@@ -42,6 +42,11 @@ kubectl get nodes  # 查看集群是否已经准备好
 ```
 
 ```shell
+# 创建kubernetes dashboard
+vagrant provision --provision-with install-kubernetes-dashboard
+```
+
+```shell
 # 删除k8s集群，集群机器变成单独只安装完了依赖的状态
 vagrant provision --provision-with remove-kubernetes-cluster
 ```

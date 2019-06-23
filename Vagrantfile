@@ -59,12 +59,17 @@ Vagrant.configure("2") do |config|
     ip = "192.168.8.#{10+machine_id}"
     if machine_id == 1
       config.vm.define node_name, primary: true do |node|
+        node.vm.network "forwarded_port", guest: 6443, host: 6443, auto_correct: true
+        node.vm.network "forwarded_port", guest: 8001, host: 8001, auto_correct: true
         provision_k8s_machine node, node_name, ip
         node.vm.provision "init-kubernetes-cluster", type: "shell" do |s|
           s.path = "scripts/centos7/init-kubernetes-cluster.sh"
         end
         node.vm.provision "remove-kubernetes-cluster", type: "shell", run: "never" do |s|
           s.path = "scripts/centos7/remove-kubernetes-cluster.sh"
+        end
+        node.vm.provision "install-kubernetes-dashboard", type: "shell", run: "never" do |s|
+          s.path = "scripts/centos7/install-kubernetes-dashboard.sh"
         end
       end
     else
