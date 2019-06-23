@@ -7,10 +7,32 @@ set -uexo pipefail
 MASTER_IP=$(hostname -i | cut -d' ' -f 2)
 POD_CIDR=10.244.0.0/16
 
-kubeadm init --kubernetes-version=v1.15.0 \
-  --apiserver-advertise-address $MASTER_IP \
-  --pod-network-cidr=$POD_CIDR \
-  --image-repository=registry.cn-hangzhou.aliyuncs.com/google_containers
+# https://godoc.org/k8s.io/kubernetes/cmd/kubeadm/app/apis/kubeadm/v1beta2
+cat > config.yaml << EOF
+apiVersion: kubeadm.k8s.io/v1beta2
+kind: InitConfiguration
+localAPIEndpoint:
+  advertiseAddress: $MASTER_IP
+nodeRegistration:
+  name: $(hostname)
+  taints:
+  - effect: NoSchedule
+    key: node-role.kubernetes.io/master
+---
+apiVersion: kubeadm.k8s.io/v1beta2
+imageRepository: registry.cn-hangzhou.aliyuncs.com/google_containers
+kind: ClusterConfiguration
+kubernetesVersion: v1.15.0
+networking:
+  podSubnet: "$POD_CIDR"
+---
+apiVersion: kubeproxy.config.k8s.io/v1alpha1
+kind: KubeProxyConfiguration
+featureGates:
+  SupportIPVSProxyMode: true
+mode: ipvs
+EOF
+kubeadm init --config config.yaml && rm -f config.yaml
 
 mkdir -p /home/vagrant/.kube
 cp -f /etc/kubernetes/admin.conf /home/vagrant/.kube/config

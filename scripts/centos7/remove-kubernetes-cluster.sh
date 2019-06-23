@@ -13,3 +13,5 @@ kubeadm reset -f
 rm -rf /var/lib/etcd/*
 
 iptables -F && iptables -t nat -F && iptables -t mangle -F && iptables -X
+
+ipvsadm -C

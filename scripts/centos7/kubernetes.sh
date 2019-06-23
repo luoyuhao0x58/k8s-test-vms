@@ -28,5 +28,5 @@ net.bridge.bridge-nf-call-iptables = 1
 EOF
 sysctl --system
 
-yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+yum install -y ipvsadm kubelet kubeadm kubectl --disableexcludes=kubernetes
 systemctl enable kubelet

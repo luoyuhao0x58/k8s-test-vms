@@ -4,7 +4,7 @@
 
 目前直接创建三台机器，一台是control-plane，两台是普通节点，三个节点都可以部署pod。
 
-网络使用calico
+网络有开启ipvs，并使用calico。
 
 
 ## 依赖

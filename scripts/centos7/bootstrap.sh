@@ -30,6 +30,8 @@ EOF
 cat > /usr/lib/sysctl.d/00-system.conf << EOF
 vm.swappiness = 0
 
+net.ipv4.ip_forward = 1
+
 net.ipv4.icmp_echo_ignore_broadcasts = 1
 net.ipv4.icmp_ignore_bogus_error_responses = 1
 
@@ -85,7 +87,6 @@ net.ipv4.ip_local_port_range = 1024 65000
 
 net.netfilter.nf_conntrack_max=655350
 net.netfilter.nf_conntrack_tcp_timeout_established=1200
-
 EOF
 
 # easy for debug
