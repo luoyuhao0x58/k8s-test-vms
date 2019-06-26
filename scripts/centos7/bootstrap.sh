@@ -7,9 +7,15 @@ mv /etc/yum.repos.d/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo.backup
 curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-7.repo
 curl -o /etc/yum.repos.d/epel.repo http://mirrors.aliyun.com/repo/epel-7.repo
 # yum -y install epel-release
+
 yum makecache
 yum -y update
-yum -y install yum-utils tmux git
+
+# https://docs.snapcraft.io/installing-snap-on-centos
+yum -y install yum-utils snapd tmux git
+systemctl enable --now snapd.socket
+ln -s /var/lib/snapd/snap /snap
+
 swapoff -a
 rm -f /swapfile
 sed -i "/swap/d" /etc/fstab

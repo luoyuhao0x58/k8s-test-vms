@@ -44,6 +44,8 @@ kubectl get nodes  # 查看集群是否已经准备好
 ```shell
 # 创建kubernetes dashboard
 vagrant provision --provision-with install-kubernetes-dashboard
+# 安装helm
+vagrant provision --provision-with install-helm
 ```
 
 ```shell

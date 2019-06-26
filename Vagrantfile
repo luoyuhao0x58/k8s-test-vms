@@ -71,6 +71,9 @@ Vagrant.configure("2") do |config|
         node.vm.provision "install-kubernetes-dashboard", type: "shell", run: "never" do |s|
           s.path = "scripts/centos7/install-kubernetes-dashboard.sh"
         end
+        node.vm.provision "install-helm", type: "shell", run: "never" do |s|
+          s.path = "scripts/centos7/install-helm.sh"
+        end
       end
     else
       config.vm.define node_name do |node|
